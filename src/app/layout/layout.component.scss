@@ -6,3 +6,12 @@
 .sidenav,.sidenav-content{
   padding-top: 64px;
 }
+
+.sidenav-content{
+  padding-left: 16px;
+  padding-right: 16px;
+  @media screen and (min-width:768px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}

@@ -18,7 +18,12 @@
   <mat-sidenav class="sidenav" mode="side" #sidenav
     ><mat-nav-list>
       <h3 mat-subheader>客戶服務</h3>
-      <a *ngFor="let item of listItems" mat-list-item [routerLink]="item.router">{{ item.title }}</a>
+      <a
+        *ngFor="let item of listItems"
+        mat-list-item
+        [routerLink]="'/' + item.router"
+        >{{ item.title }}</a
+      >
     </mat-nav-list></mat-sidenav
   >
   <mat-sidenav-content class="sidenav-content">

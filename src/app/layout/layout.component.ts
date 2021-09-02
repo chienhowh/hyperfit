@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSidenav, MatDrawerToggleResult } from '@angular/material/sidenav';
-import { ROUTING_PATH } from '../const/routing-path.const';
+import { ROUTING_PATH } from '../core/const/routing-path.const';
 
 @Component({
   selector: 'app-layout',
@@ -9,8 +9,8 @@ import { ROUTING_PATH } from '../const/routing-path.const';
 })
 export class LayoutComponent implements OnInit {
   listItems = [
-    { title: '行事曆', router: '/' + ROUTING_PATH.CALENDAR },
-    { title: '課表', router: '/' + ROUTING_PATH.MENU },
+    { title: '行事曆', router: ROUTING_PATH.CALENDAR },
+    { title: '課表', router:  ROUTING_PATH.MENU },
     { title: '收件夾', router: 'aaa' },
   ];
 

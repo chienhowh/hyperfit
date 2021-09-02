@@ -1,9 +1,8 @@
 
-
-import { ROUTING_PATH } from './const/routing-path.const';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CalendarComponent } from './content/calendar/calendar.component';
+import { ROUTING_PATH } from '../app/core/const/routing-path.const';
 
 const routes: Routes = [
   { path: ROUTING_PATH.CALENDAR, component: CalendarComponent },
