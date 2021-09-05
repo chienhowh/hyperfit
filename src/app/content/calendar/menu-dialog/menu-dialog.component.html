@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>建立菜單</h2>
+<mat-dialog-content>
+  <form [formGroup]="validateForm">
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field appearance="fill">
+          <mat-label>訓練時間 </mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="plan_time" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+        <mat-form-field appearance="fill">
+          <mat-label>菜單名稱</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="請輸入菜單名稱"
+            required
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]>No Thanks</button>
+  <button mat-button (click)="handleSubmit()">Ok</button>
+</div>

@@ -1,7 +1,10 @@
+import { MenuDialogComponent } from './menu-dialog/menu-dialog.component';
 import { MenusService } from './../../core/services/menus.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, FullCalendarComponent } from '@fullcalendar/angular';
 import { IMenu } from './menu.interface';
+import { DateClickArg } from '@fullcalendar/interaction';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -101,12 +104,14 @@ export class CalendarComponent implements OnInit {
   }
   ];
   constructor(
-    private menuSvc: MenusService
+    private menuSvc: MenusService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    // this.getMenus();
-    this.calendarOptions.events = this.menuList.map(m => ({ ...m, title: m.name, date: m.plan_time }));
+    // TODO:插入ＡＰＩ
+    this.getMenus();
+    // this.calendarOptions.events = this.menuList.map(m => ({ ...m, title: m.name, date: m.plan_time }));
 
   }
 
@@ -116,14 +121,22 @@ export class CalendarComponent implements OnInit {
       this.calendarOptions.events = res.map(m => ({ ...m, title: m.name, date: m.plan_time })));
   }
 
-  someMethod() {
-    let calendarApi = this.calendarComponent.getApi();
-    calendarApi.next();
-  }
-
-  handleDateClick(info): void {
+  /** 日曆點擊事件 */
+  handleDateClick(info: DateClickArg): void {
     alert('Date: ' + info.dateStr);
 
   }
 
+  /** 打開菜單建立modal */
+  hanleNewMenu(info?: DateClickArg): void {
+    const config = {
+      data: {}
+    };
+    const dialogRef = this.dialog.open(MenuDialogComponent, config
+    );
+    // 如有新增menu，關閉dialog刷新calendar
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) { this.getMenus(); }
+    });
+  }
 }

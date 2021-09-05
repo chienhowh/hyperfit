@@ -18,4 +18,8 @@ export class MenusService {
   getMenus(): Observable<any> {
     return this.requestSvc.httpRequest(API_METHOD.GET, API.MENU);
   }
+
+  postMenu(params: any): Observable<any> {
+    return this.requestSvc.httpRequest(API_METHOD.POST, API.MENU, params);
+  }
 }
