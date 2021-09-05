@@ -24,6 +24,7 @@
     "@angular/router": "~10.0.9",
     "@fullcalendar/angular": "^5.9.0",
     "@fullcalendar/daygrid": "^5.9.0",
+    "@fullcalendar/interaction": "^5.9.0",
     "bootstrap": "^5.1.0",
     "moment": "^2.29.1",
     "rxjs": "~6.5.5",

@@ -11,10 +11,11 @@ import { CalendarComponent } from './content/calendar/calendar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
-
+  interactionPlugin
 ]);
 @NgModule({
   declarations: [
