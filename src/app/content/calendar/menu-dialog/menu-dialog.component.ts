@@ -23,9 +23,8 @@ export class MenuDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const createTime = this.data.time;
-    createTime ? this.validateForm.get('plan_time').patchValue(createTime) : this.validateForm.get('plan_time').patchValue(moment());
-
+    const createTime = this.data?.time ?? moment();
+    this.validateForm.get('plan_time').patchValue(createTime);
   }
 
   handleSubmit(): void {

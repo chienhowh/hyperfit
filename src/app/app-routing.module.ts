@@ -6,7 +6,7 @@ import { ROUTING_PATH } from '../app/core/const/routing-path.const';
 
 const routes: Routes = [
   { path: ROUTING_PATH.CALENDAR, component: CalendarComponent },
-  { path: ROUTING_PATH.MENU, loadChildren: () => import('./content/menu/menu.module').then(m => m.MenuModule) },
+  { path: ROUTING_PATH.MENU + '/:menuid', loadChildren: () => import('./content/menu/menu.module').then(m => m.MenuModule) },
   { path: '', redirectTo: '/' + ROUTING_PATH.CALENDAR, pathMatch: 'full' },
   { path: '**', component: CalendarComponent }
 ];

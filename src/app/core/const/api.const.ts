@@ -8,5 +8,7 @@ export const API_METHOD = {
 
 export const API = {
   /** 訓練菜單 */
-  MENU: 'menu'
+  MENU: 'menu',
+  /** 動作 */
+  ACTIONS: 'actions'
 };

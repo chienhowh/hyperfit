@@ -31,13 +31,13 @@ FullCalendarModule.registerPlugins([
   imports: [
     CommonModule,
     BrowserModule,
+    ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
     FullCalendarModule,
-    ReactiveFormsModule,
-    FormsModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {floatLabel: 'always'}}, // 全域label設定
