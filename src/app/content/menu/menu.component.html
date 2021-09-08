@@ -8,8 +8,8 @@
   <!-- <form [formGroup]="validateForm">
 
   </form> -->
-  <div *ngFor="let action of menu?.actions" class="mb-3">
-    <mat-accordion>
+  <mat-accordion>
+    <ng-container *ngFor="let action of actionList">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -21,13 +21,13 @@
         </mat-expansion-panel-header>
         <p>This is the primary content of the panel.</p>
         <mat-action-row>
-          <button mat-button color="primary">Next</button>
+          <button mat-button color="primary" (click)="handleNewRecord()">Next</button>
         </mat-action-row>
       </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+    </ng-container>
+  </mat-accordion>
 </div>
 <!-- 新增 start -->
-<button mat-fab class="add-btn" (click)="hanleNewAction()">
-  <mat-icon > add </mat-icon>
+<button mat-fab class="add-btn" (click)="handleNewAction()">
+  <mat-icon> add </mat-icon>
 </button>

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MenuRoutingModule } from './menu-routing.module';
 import { MenuComponent } from './menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActionDialogComponent } from './action-dialog/action-dialog.component';
+import { ActionDialogComponent } from './content/action-dialog/action-dialog.component';
 
 
 @NgModule({

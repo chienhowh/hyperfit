@@ -13,11 +13,12 @@ export interface IMenu {
   plan_time: string;
 }
 
-export interface IAction {
+export interface  IAction {
   /** menuid */
   menu_id: number;
   _last_modified: string;
   action_id: number;
+  /** 動作名稱 */
   content: string;
   records: any[];
 }

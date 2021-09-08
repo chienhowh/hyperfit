@@ -1,5 +1,6 @@
-import { MatDialogRef } from '@angular/material/dialog';
-import { Component, OnInit } from '@angular/core';
+import { ActionsService } from '../../../../core/services/actions.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
@@ -15,14 +16,16 @@ export class ActionDialogComponent implements OnInit {
   });
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef
+    private dialogRef: MatDialogRef<ActionDialogComponent>,
+    private actionSvc: ActionsService,
+    @Inject(MAT_DIALOG_DATA) public data: { menuId: string }
   ) { }
 
   bodyPart = [
     { viewValue: '胸', value: 'chest' },
     { viewValue: '背', value: 'back' },
     { viewValue: '腿', value: 'legs' },
-  ]
+  ];
 
   action = {
     chest: [
@@ -40,23 +43,22 @@ export class ActionDialogComponent implements OnInit {
       { viewValue: '硬舉', value: 'deadlift' },
       { viewValue: '分腿蹲', value: 'dumbell' },
     ]
-  }
+  };
   actionOpts = this.action.chest;
 
   ngOnInit(): void {
   }
 
   handlePartChange(part: MatSelectChange) {
-    console.log(part.value);
     this.actionOpts = this.action[part.value];
   }
 
   handleSubmit(): void {
     this.validateForm.markAllAsTouched();
     if (this.validateForm.invalid) { return; }
-
-    this.dialogRef.close(true)
-    // this.menuSvc.postMenu(params).subscribe(() => this.dialogRef.close(true));
+    const content = this.validateForm.get('content').value;
+    this.dialogRef.close(true);
+    this.actionSvc.postAction(this.data.menuId, {content}).subscribe(() => this.dialogRef.close(true));
 
 
   }
