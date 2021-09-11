@@ -10,18 +10,40 @@
   </form> -->
   <mat-accordion>
     <ng-container *ngFor="let action of actionList">
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="action.action_id === openingPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ action.content }}
           </mat-panel-title>
-          <!-- <mat-panel-description>
-            This is a summary of the content
-          </mat-panel-description> -->
         </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
+        <!-- 面板內容 start -->
+        <mat-divider></mat-divider>
+        <!-- record -->
+        <table mat-table [dataSource]="action.records" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="reps">
+            <th mat-header-cell *matHeaderCellDef>次數</th>
+            <td mat-cell *matCellDef="let element">{{ element.reps }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef>重量</th>
+            <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <!-- 面板內容 end -->
         <mat-action-row>
-          <button mat-button color="primary" (click)="handleNewRecord()">Next</button>
+          <button
+            mat-button
+            color="primary"
+            (click)="handleNewRecord(action.action_id, action.records)"
+          >
+            Next
+          </button>
         </mat-action-row>
       </mat-expansion-panel>
     </ng-container>

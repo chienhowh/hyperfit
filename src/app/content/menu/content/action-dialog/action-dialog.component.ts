@@ -49,7 +49,7 @@ export class ActionDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handlePartChange(part: MatSelectChange) {
+  handlePartChange(part: MatSelectChange): void {
     this.actionOpts = this.action[part.value];
   }
 
@@ -58,7 +58,7 @@ export class ActionDialogComponent implements OnInit {
     if (this.validateForm.invalid) { return; }
     const content = this.validateForm.get('content').value;
     this.dialogRef.close(true);
-    this.actionSvc.postAction(this.data.menuId, {content}).subscribe(() => this.dialogRef.close(true));
+    this.actionSvc.postAction(this.data.menuId, { content }).subscribe(() => this.dialogRef.close(true));
 
 
   }

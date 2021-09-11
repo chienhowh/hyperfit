@@ -1,3 +1,4 @@
+import { RecordDialogComponent } from './content/record-dialog/record-dialog.component';
 import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,7 +12,8 @@ import { ActionDialogComponent } from './content/action-dialog/action-dialog.com
 @NgModule({
   declarations: [
     MenuComponent,
-    ActionDialogComponent
+    ActionDialogComponent,
+    RecordDialogComponent
   ],
   imports: [
     CommonModule,

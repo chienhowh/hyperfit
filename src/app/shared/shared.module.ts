@@ -11,8 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import {MatDialogModule, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [],
   imports: [
@@ -31,7 +32,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatSelectModule,
     MatMomentDateModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTableModule
   ]
 })
 export class SharedModule { }
