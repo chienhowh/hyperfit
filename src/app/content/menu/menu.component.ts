@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { IMenu, IAction, IRecord } from '../../core/interfaces/server.interface';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { from, Observable } from 'rxjs';
+import { config, from, Observable } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 @Component({
   selector: 'app-menu',
@@ -18,8 +18,12 @@ import { concatMap, map } from 'rxjs/operators';
 export class MenuComponent implements OnInit {
   validateForm: FormGroup;
   menuId: string;
+  /** 菜單 */
   menu: IMenu;
+  /** 各組動作 */
   actionList: IAction[] = [];
+  totalSets = 0;
+  trainingTime = 0;
   /** 正在使用的panel */
   openingPanel: number;
 
@@ -53,11 +57,20 @@ export class MenuComponent implements OnInit {
       // 照順序取動作
       from(res.actions).pipe(
         concatMap((a: IAction) => this.getActionById(a.action_id))
-      ).subscribe((action: IAction) => this.actionList.push(action));
-
+      ).subscribe((action: IAction) => {
+        this.actionList.push(action);
+        // this.totalWeights += this.calcTotalWeights(action);
+        this.totalSets += action.records.length;
+      });
     });
   }
 
+  calcTotalWeights(action: IAction): number {
+    let actionWeights = 0;
+    action.records.forEach(r => actionWeights += (r.weight * r.reps)
+    );
+    return actionWeights;
+  }
 
   /** 取得動作 */
   getActionById(actionId: number): Observable<IAction> {
@@ -77,27 +90,46 @@ export class MenuComponent implements OnInit {
 
   /**
    * 新增組數
-   *
+   * @param row row資料
    */
-  handleNewRecord(actionId: number, records: IRecord[]): void {
+  handleRecord(actionId: number, records: IRecord[], rowRecord?: IRecord): void {
     this.openingPanel = actionId;
-    // 沒有record，打開設定dialog
-    if (records.length === 0) {
-      this.dialog.open(RecordDialogComponent).afterClosed().subscribe((res) => {
-        for (const i of Object.keys(res)) { res[i] = +res[i]; }
-        this.newRecord(actionId, res).subscribe(() => this.getMenuById());
+    // 編輯record
+    if (rowRecord) {
+      this.dialog.open(RecordDialogComponent, {
+        data: {
+          Record: rowRecord,
+          actionId,
+        },
+      }).afterClosed().subscribe((record) => {
+        if (!record) { return; }
+        this.updateRecord(actionId, rowRecord.record_id, record).subscribe(() => this.getMenuById());
       });
     } else {
-      // 有records，則預設上一組設定
-      this.newRecord(actionId, { weight: records[0].weight, reps: records[0].reps }).subscribe(() => {
-        this.getMenuById();
-      });
+      // 新增record
+      // 沒有record，打開設定dialog
+      if (records.length === 0) {
+        this.dialog.open(RecordDialogComponent).afterClosed().subscribe((record) => {
+          if (!record) { return; }
+          this.newRecord(actionId, record).subscribe(() => this.getMenuById());
+        });
+      } else {
+        // 有records，則預設上一組設定
+        this.newRecord(actionId, { weight: records[0].weight, reps: records[0].reps }).subscribe(() => {
+          this.getMenuById();
+        });
+      }
     }
+
   }
 
   newRecord(actionId: number, data: { weight: number, reps: number }): Observable<any> {
     return this.recordSvc.newRecord(this.menuId, actionId, data);
   }
+  updateRecord(actionId: number, recordId: number, data: { weight: number, reps: number }): Observable<any> {
+    return this.recordSvc.updateRecord(this.menuId, actionId, recordId, data);
+  }
+
 
 
 }

@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient,  HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { API_METHOD } from '../const/api.const';
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,10 @@ export class RequestService {
         return this.http.get(endpoint, { headers });
       case API_METHOD.POST:
         return this.http.post(endpoint, params, { headers });
+      case API_METHOD.PUT:
+        return this.http.put(endpoint, params, { headers });
+      default:
+        console.warn('API METHOD WRONG');
     }
   }
 

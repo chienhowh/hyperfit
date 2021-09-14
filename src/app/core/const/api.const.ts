@@ -14,3 +14,13 @@ export const API = {
   /** 次數&重量 */
   RECORDS: 'records'
 };
+
+export const CRUD_CONFIG = {
+  CREATE: 'create',
+  READ: 'read',
+  UPDATE: 'edit',
+  DELETE: 'delete',
+
+  BATCH_ADD: 'batchAdd',
+  BATCH_REMOVE: 'batchRemove',
+}
