@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>{{ dialogData ? "編輯" : "新增" }}重量</h2>
+<h2 mat-dialog-title class="text-center">
+  {{ dialogData ? "編輯" : "新增" }}重量
+</h2>
 <mat-dialog-content>
   <form [formGroup]="validateForm">
     <div class="row">
@@ -19,6 +21,19 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
   <button mat-raised-button color="accent" [mat-dialog-close]>返回</button>
-  <button mat-raised-button color="warn" (click)="handleSubmit(CRUD_CONFIG.DELETE)">刪除</button>
-  <button mat-raised-button color="primary" (click)="handleSubmit(CRUD_CONFIG.CREATE)">確認</button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="handleDelete()"
+    *ngIf="dialogData.crudType === CRUD_CONFIG.UPDATE"
+  >
+    刪除
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="handleSubmit()"
+  >
+    確認
+  </button>
 </div>

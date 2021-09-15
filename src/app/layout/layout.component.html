@@ -4,7 +4,7 @@
       {{ sidenav.opened ? "highlight_off" : "menu" }}
     </mat-icon>
   </button>
-  <span>My Application</span>
+  <span [routerLink]="ROUTING_PATH.CALENDAR" style="cursor: pointer;">HyperFit</span>
   <span class="ms-auto">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon> chat </mat-icon>
@@ -21,7 +21,8 @@
       <a
         *ngFor="let item of listItems"
         mat-list-item
-        [routerLink]="'/' + item.router"
+        (click)="toggleSide(sidenav)"
+        [routerLink]="item.router"
         >{{ item.title }}</a
       >
     </mat-nav-list></mat-sidenav

@@ -19,23 +19,27 @@ export class RecordDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<RecordDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: { Record: IRecord },
-    private recordSvc: RecordService
+    @Inject(MAT_DIALOG_DATA) public dialogData: {
+      Record: IRecord, actionId: string,
+      crudType: string
+    },
+
   ) { }
 
   ngOnInit(): void {
-    if (this.dialogData) {
+    if (this.dialogData.crudType === CRUD_CONFIG.UPDATE) {
       this.validateForm.patchValue(this.dialogData.Record);
     }
   }
 
 
-  handleSubmit(crudType: string): void {
-
+  handleSubmit(): void {
     this.validateForm.markAllAsTouched();
     if (this.validateForm.invalid) { return; }
-    if (crudType === CRUD_CONFIG.CREATE || crudType===CRUD_CONFIG.UPDATE) {
-      this.dialogRef.close(this.validateForm.value);
-    }
+    this.dialogRef.close({ formValue: this.validateForm.value, crudType: this.dialogData.crudType });
+  }
+
+  handleDelete(): void {
+    this.dialogRef.close({ crudType: this.CRUD_CONFIG.DELETE });
   }
 }

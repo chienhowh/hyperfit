@@ -28,4 +28,8 @@ export class RecordService {
     for (const i of Object.keys(record)) { record[i] = +record[i]; }
     return this.requestSvc.httpRequest(API_METHOD.PUT, `menus/${menuId}/${API.ACTIONS}/${actionId}/${API.RECORDS}/${recordId}`, record);
   }
+
+  deleteRecord(menuId: string, actionId: number, recordId: number): Observable<any> {
+    return this.requestSvc.httpRequest(API_METHOD.DELETE, `menus/${menuId}/${API.ACTIONS}/${actionId}/${API.RECORDS}/${recordId}`);
+  }
 }

@@ -1,3 +1,4 @@
+import { CRUD_CONFIG } from './../../core/const/api.const';
 import { RecordService } from './../../core/services/record.service';
 import { RecordDialogComponent } from './content/record-dialog/record-dialog.component';
 import { ActionsService } from './../../core/services/actions.service';
@@ -100,18 +101,30 @@ export class MenuComponent implements OnInit {
         data: {
           Record: rowRecord,
           actionId,
+          crudType: CRUD_CONFIG.UPDATE
         },
       }).afterClosed().subscribe((record) => {
-        if (!record) { return; }
-        this.updateRecord(actionId, rowRecord.record_id, record).subscribe(() => this.getMenuById());
+        if (!record) { return; } // 沒資料不處理
+        if (record.crudType === CRUD_CONFIG.UPDATE) {
+          this.updateRecord(actionId, rowRecord.record_id, record.formValue).subscribe(() => this.getMenuById());
+        } else {
+          // 刪除
+          this.deleteRecord(actionId, rowRecord.record_id).subscribe(() =>{
+            this.getMenuById();
+            console.log('delete work');
+
+          });
+        }
       });
     } else {
       // 新增record
       // 沒有record，打開設定dialog
       if (records.length === 0) {
-        this.dialog.open(RecordDialogComponent).afterClosed().subscribe((record) => {
+        this.dialog.open(RecordDialogComponent, {
+          data: { crudType: CRUD_CONFIG.CREATE }
+        }).afterClosed().subscribe((record) => {
           if (!record) { return; }
-          this.newRecord(actionId, record).subscribe(() => this.getMenuById());
+          this.newRecord(actionId, record.formValue).subscribe(() => this.getMenuById());
         });
       } else {
         // 有records，則預設上一組設定
@@ -130,6 +143,9 @@ export class MenuComponent implements OnInit {
     return this.recordSvc.updateRecord(this.menuId, actionId, recordId, data);
   }
 
+  deleteRecord(actionId: number, recordId: number): Observable<any> {
+    return this.recordSvc.deleteRecord(this.menuId, actionId, recordId);
+  }
 
 
 }
