@@ -19,6 +19,21 @@ mat-form-field {
   width: 100%;
 }
 
-.mat-dialog-actions{
+.mat-dialog-actions {
   justify-content: flex-end;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin: 1rem !important;
+}
+
+.fc-daygrid-event {
+  background-color: indianred;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.fc-daygrid-event-dot,
+.fc-event-time {
+  display: none;
 }

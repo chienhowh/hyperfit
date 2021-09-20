@@ -10,7 +10,7 @@ import { IMenu, IAction, IRecord } from '../../core/interfaces/server.interface'
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { config, from, Observable } from 'rxjs';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap, finalize, map, take, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -50,18 +50,19 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  /** 取得菜單 */
+  /** 取得菜單並分取個別動作 */
   getMenuById(): void {
     this.actionList = [];
     this.menusSvc.getMenuById(this.menuId).subscribe(res => {
+      let sets = 0;
       this.menu = res;
       // 照順序取動作
       from(res.actions).pipe(
-        concatMap((a: IAction) => this.getActionById(a.action_id))
+        concatMap((a: IAction) => this.getActionById(a.action_id)),
+        tap(s => sets += s.records.length),
+        finalize(() => this.totalSets = sets) // call完再刷新totalsets, 避免一直閃
       ).subscribe((action: IAction) => {
         this.actionList.push(action);
-        // this.totalWeights += this.calcTotalWeights(action);
-        this.totalSets += action.records.length;
       });
     });
   }
@@ -109,7 +110,7 @@ export class MenuComponent implements OnInit {
           this.updateRecord(actionId, rowRecord.record_id, record.formValue).subscribe(() => this.getMenuById());
         } else {
           // 刪除
-          this.deleteRecord(actionId, rowRecord.record_id).subscribe(() =>{
+          this.deleteRecord(actionId, rowRecord.record_id).subscribe(() => {
             this.getMenuById();
             console.log('delete work');
 

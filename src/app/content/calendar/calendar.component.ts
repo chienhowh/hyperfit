@@ -8,6 +8,7 @@ import { DateClickArg } from '@fullcalendar/interaction';
 import { MatDialog } from '@angular/material/dialog';
 import { IMenu } from '../../core/interfaces/server.interface';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -21,10 +22,18 @@ export class CalendarComponent implements OnInit {
     initialView: 'dayGridMonth',
     dateClick: this.handleDateClick.bind(this),
     events: [],
+    contentHeight: 600,
     eventClick: (info) => {
       const menu_id = info.event.extendedProps.menu_id;
       this.handleMenuClick(menu_id);
     },
+    headerToolbar: {
+      start: 'title',
+      center: '',
+      end: 'prev today next'
+    },
+    titleFormat:
+      { year: 'numeric', month: 'short' },
   };
 
   constructor(
@@ -40,6 +49,7 @@ export class CalendarComponent implements OnInit {
 
   }
 
+
   /** 取得菜單日期 */
   getMenus(): void {
     this.menuSvc.getMenus().subscribe((res: IMenu[]) =>
@@ -48,7 +58,7 @@ export class CalendarComponent implements OnInit {
   }
 
   /** 日曆點擊事件 */
-  handleDateClick(info: DateClickArg): void {
+   handleDateClick(info: DateClickArg): void {
     this.hanleNewMenu(info);
   }
 
@@ -60,9 +70,12 @@ export class CalendarComponent implements OnInit {
 
   /** 打開建立菜單modal */
   hanleNewMenu(info?: DateClickArg): void {
+    // info: 點擊calendar, noInfo:點擊新增btn
     const config = info ? {
       data: { time: info.date }
-    } : {};
+    } : {
+      data: {time: new Date()}
+    };
     const dialogRef = this.dialog.open(MenuDialogComponent, config
     );
     // 如有新增menu，關閉dialog刷新calendar

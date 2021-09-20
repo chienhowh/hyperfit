@@ -16,25 +16,22 @@ export class MenuDialogComponent implements OnInit {
     plan_time: ['', Validators.required],
   });
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { time: Date },
     public dialogRef: MatDialogRef<MenuDialogComponent>,
     private fb: FormBuilder,
     private menuSvc: MenusService
   ) { }
 
   ngOnInit(): void {
-    const createTime = this.data?.time ?? moment();
+    const createTime = this.data.time;
     this.validateForm.get('plan_time').patchValue(createTime);
   }
 
   handleSubmit(): void {
     this.validateForm.markAllAsTouched();
     if (this.validateForm.invalid) { return; }
-
-    const plan_time = this.validateForm.get('plan_time').value.format('YYYY-MM-DD');
+    const plan_time = moment(this.validateForm.get('plan_time').value).format('YYYY-MM-DD');
     const params = { ...this.validateForm.value, plan_time };
     this.menuSvc.postMenu(params).subscribe(() => this.dialogRef.close(true));
-
-
   }
 }
